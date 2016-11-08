@@ -26,7 +26,9 @@
 
 
         </activity>
-        <service android:name=".RecorderService" />
+        <service android:name=".RecordService"
+            android:exported="false">
+            </service>
         <receiver android:name=".ScreenReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.SCREEN_OFF"/>
