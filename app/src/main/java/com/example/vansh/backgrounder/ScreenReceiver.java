@@ -11,20 +11,25 @@ import android.content.Intent;
 
 public class ScreenReceiver extends BroadcastReceiver {
 
-    // THANKS JASON
     public static boolean wasScreenOn = true;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-
+            Intent it = new Intent(context, RecorderService.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startService(it);
+            System.out.println("SCREEN TURNED OFF");
             // DO WHATEVER YOU NEED TO DO HERE
             wasScreenOn = false;
         } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+            context.stopService(new Intent(context, RecorderService.class));
+
+            // THIS IS WHEN ONRESUME() IS CALLED DUE TO A SCREEN STATE CHANGE
+            System.out.println("SCREEN TURNED ON");}
 
             // AND DO WHATEVER YOU NEED TO DO HERE
             wasScreenOn = true;
         }
     }
 
-}

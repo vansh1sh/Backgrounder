@@ -67,43 +67,11 @@ public class CameraRecorder extends Activity implements SurfaceHolder.Callback {
 		});
 }
 
-	@Override
-	protected void onPause() {
-		// WHEN THE SCREEN IS ABOUT TO TURN OFF
-		if (ScreenReceiver.wasScreenOn) {
-			Intent intent = new Intent(CameraRecorder.this, RecorderService.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startService(intent);
-			System.out.println("SCREEN TURNED OFF");
-		} else {
-			// THIS IS WHEN ONPAUSE() IS CALLED WHEN THE SCREEN STATE HAS NOT CHANGED
-		}
-		super.onPause();
-	}
-
-	@Override
-	protected void onResume() {
-		// ONLY WHEN SCREEN TURNS ON
-		if (!ScreenReceiver.wasScreenOn) {
-			if (getIntent().getAction().equals(Intent.ACTION_SCREEN_ON)){
-			stopService(new Intent(CameraRecorder.this, RecorderService.class));
-
-			// THIS IS WHEN ONRESUME() IS CALLED DUE TO A SCREEN STATE CHANGE
-			System.out.println("SCREEN TURNED ON");}
-		} else {
-			stopService(new Intent(CameraRecorder.this, RecorderService.class));
-
-			// THIS IS WHEN ONRESUME() IS CALLED WHEN THE SCREEN STATE HAS NOT CHANGED
-
-		}
-		super.onResume();
-	}
 
 
 
 
 	public void requestCameraPermission() {
-
 
 		// Camera permission has not been granted yet. Request it directly.
 		ActivityCompat.requestPermissions(CameraRecorder.this, new String[]{Manifest.permission.CAMERA},
